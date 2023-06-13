@@ -1,0 +1,23 @@
+ class Class1
+    {
+        SqlConnection sqlConnection = new SqlConnection(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=TestDB1;Integrated Security=True");
+       //  "Data Source=DESKTOP-86OEPTA\teren;Initial Catalog=sklad1;Integrated Security=SSPI;";
+        public void openConnection()
+        {
+            if (sqlConnection.State == System.Data.ConnectionState.Closed)
+            {
+                sqlConnection.Open();
+            }
+        }
+        public void closeConnection()
+        {
+            if (sqlConnection.State == System.Data.ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+        }
+        public SqlConnection getConnection()
+        {
+            return sqlConnection;
+        }
+    }
