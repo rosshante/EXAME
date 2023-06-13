@@ -1,0 +1,41 @@
+public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            collection = new ObservableCollection<MyStruct>();
+            collectionSort = new ObservableCollection<MyStruct>();
+            dgView.ItemsSource = collection; //связываю DataGrid и ObservableCollection collection 
+            dgViewSort.ItemsSource = collectionSort;//связываю DataGrid2 и ObservableCollection collectionSort 
+        }
+ 
+        private void mybutton_Click(object sender, RoutedEventArgs e)//Добавление
+        {
+            MyStruct info = new MyStruct();
+            if (tbfio.Text != "" && tbAdress.Text != "" && tbMarka.Text != "")
+            {
+                info.FIO = tbfio.Text;
+                info.Adress = tbAdress.Text;
+                info.Marka = tbMarka.Text;
+            }
+            collection.Add(info);
+        }
+ 
+        ObservableCollection<MyStruct> collection { get; set; }
+        ObservableCollection<MyStruct> collectionSort { get; set; }
+ 
+        public struct MyStruct //Со структурой работать удобнее
+        {
+            public string FIO { get; set; }
+            public string Adress { get; set; }
+            public string Marka { get; set; }
+        }
+ 
+        private void btSort_Click(object sender, RoutedEventArgs e)//Сортировка второй коллекции
+        {
+            foreach (var item in collection.Where(x=>x.Marka == "Audi"))
+            {
+                collectionSort.Add(item);
+            }
+        }
+    }
