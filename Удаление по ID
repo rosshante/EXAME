@@ -1,0 +1,26 @@
+  private void simpleButton3_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Удалить запись", "Удаление", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Class1 db = new Class1();
+
+                DataTable table = new DataTable();
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter();
+
+                MySqlCommand command = new MySqlCommand("DELETE  FROM `equipment` WHERE `equipment_id` = @pId", db.getConnection()); //TableName - имя таблицы, из которой удаляете запись
+                command.Parameters.Add(new MySqlParameter("@pId", this.dataGridView1.CurrentRow.Cells["id"].EditedFormattedValue)); //DataGridViewName - имя DataGridView на форме
+
+
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+
+                MySqlCommand commandd = new MySqlCommand("SELECT equipment_id AS `id`, equipment_name AS `Наименование техники`,equipment_model AS `Модель техники`,equipment_serial_number AS `Серийный номер техники`,date_of_equipment_acquisition AS `Дата приобретения техники`,equipment_cost AS `Стоимость техники`,equipment_category AS `Категория техники` FROM equipment ", db.getConnection());
+
+                adapter.SelectCommand = commandd;
+                adapter.Fill(table);
+                dataGridView1.DataSource = table;
+
+            }
+            MessageBox.Show("Запись удалена");
+        }
