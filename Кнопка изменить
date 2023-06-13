@@ -1,0 +1,41 @@
+        private void simpleButton4_Click(object sender, EventArgs e)
+        {
+            Class1 db = new Class1();
+
+
+            MySqlCommand command = new MySqlCommand("UPDATE `equipment` SET `equipment_name` = @equipment_name, `equipment_model` = @equipment_model, `equipment_serial_number` = @equipment_serial_number, `date_of_equipment_acquisition` = @date_of_equipment_acquisition, `equipment_cost` = @equipment_cost, `equipment_category` = @equipment_category  WHERE equipment_id = @id", db.getConnection());
+
+            command.Parameters.Add("@id", MySqlDbType.VarChar).Value = textEdit5.Text;
+
+            command.Parameters.Add("@equipment_name", MySqlDbType.VarChar).Value = textEdit6.Text;
+
+            command.Parameters.Add("@equipment_model", MySqlDbType.VarChar).Value = textEdit7.Text;
+
+            command.Parameters.Add("@equipment_serial_number", MySqlDbType.VarChar).Value = textEdit8.Text;
+
+            command.Parameters.Add("@date_of_equipment_acquisition", MySqlDbType.VarChar).Value = dateEdit2.Text;
+
+            command.Parameters.Add("@equipment_cost", MySqlDbType.VarChar).Value = textEdit9.Text;
+
+            command.Parameters.Add("@equipment_category", MySqlDbType.VarChar).Value = comboBoxEdit2.Text;
+
+            db.openConnection();
+
+            if (command.ExecuteNonQuery() == 1)
+                MessageBox.Show("Запись изменена");
+            else
+                MessageBox.Show("Ошибка");
+            db.closeConnection();
+
+            Class1 dbb = new Class1();
+
+            DataTable table = new DataTable();
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+
+            MySqlCommand comman = new MySqlCommand("SELECT equipment_id AS `id`, equipment_name AS `Наименование техники`,equipment_model AS `Модель техники`,equipment_serial_number AS `Серийный номер техники`,date_of_equipment_acquisition AS `Дата приобретения техники`,equipment_cost AS `Стоимость техники`,equipment_category AS `Категория техники` FROM equipment ", db.getConnection());
+
+            adapter.SelectCommand = comman;
+            adapter.Fill(table);
+            dataGridView1.DataSource = table;
+        }
